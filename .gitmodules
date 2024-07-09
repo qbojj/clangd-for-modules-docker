@@ -1,0 +1,4 @@
+[submodule "clangd-for-modules"]
+	path = clangd-for-modules
+	url = https://github.com/ChuanqiXu9/clangd-for-modules
+	shallow = true
