@@ -4,17 +4,22 @@ on:
   schedule:
     - cron: 0 1 * * *
 
+  workflow_dispatch:
+
 jobs:
   try-to-update:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@4
-      - run: |
-          set curr_commit=$(git submodule status clangd-for-modules | awk '{print $1}')
+      
+      - id: get-data
+        run: |
+          git submodule status clangd-for-modules | awk '{print "original="$1}' >> "$GITHUB_OUTPUT"
           git submodule update --init --remote
-          set new_commit=$(git submodule status clangd-for-modules | awk '{print $1}')
-          if [ "$curr_commit" != "$new_commit" ]; then
-            git add .
-            git commit -m "update clangd-for-modules to $new_commit"
-            git push
-          fi
+          git submodule status clangd-for-modules | awk '{print "updated="$1}' >> "$GITHUB_OUTPUT" 
+
+      - name: Commit updated submodule
+        if: ${{ steps.get-data.outputs.original != steps.get-data.outputs.updated }}
+        uses: EndBug/add-and-commit@v9
+        with:
+          tag: commit-${{ steps.get-data.outputs.updated }}
