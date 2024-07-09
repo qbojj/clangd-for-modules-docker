@@ -10,14 +10,15 @@ jobs:
   try-to-update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@4
+      - uses: actions/checkout@v4
       
       - id: get-data
         run: |
-          git submodule status clangd-for-modules | awk '{print "original="$1}' >> "$GITHUB_OUTPUT"
-          git submodule update --init --remote
-          git submodule status clangd-for-modules | awk '{print "updated="$1}' >> "$GITHUB_OUTPUT" 
-
+          git submodule update --init --depth=1 clangd-for-modules
+          git submodule status clangd-for-modules | awk '{print "original="$1}' | tee -a "$GITHUB_OUTPUT"
+          git submodule update --remote --depth=1 clangd-for-modules
+          git submodule status clangd-for-modules | awk '{print "updated="$1}' | tee -a "$GITHUB_OUTPUT"
+          
       - name: Commit updated submodule
         if: ${{ steps.get-data.outputs.original != steps.get-data.outputs.updated }}
         uses: EndBug/add-and-commit@v9

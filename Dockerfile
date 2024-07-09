@@ -21,3 +21,6 @@ RUN --mount=type=cache,target=/root/.cache \
   cmake --build build
 
 RUN cmake --install build
+
+RUN rm -rf /tmp/clangd-for-modules
+WORKDIR /root
