@@ -12,15 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - id: get-data
-        run: |
-          git submodule update --init --depth=1 clangd-for-modules
-          git submodule status clangd-for-modules | awk '{print "original="$1}' | tee -a "$GITHUB_OUTPUT"
-          git submodule update --remote --depth=1 clangd-for-modules
-          git submodule status clangd-for-modules | awk '{print "updated="$1}' | tee -a "$GITHUB_OUTPUT"
-          
-      - name: Commit updated submodule
-        if: ${{ steps.get-data.outputs.original != steps.get-data.outputs.updated }}
+      - name: update clangd-for-modules
+        run: git submodule update --init --remote --depth=1 clangd-for-modules
+
+      - name: Commit updated submodule if changed
         uses: EndBug/add-and-commit@v9
         with:
           tag: commit-${{ steps.get-data.outputs.updated }}
