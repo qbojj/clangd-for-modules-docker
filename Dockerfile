@@ -26,3 +26,5 @@ rm -rf /tmp/clangd-for-modules
 EOF
 
 WORKDIR /root
+
+RUN pacman -Rcns --noconfirm clang
