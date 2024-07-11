@@ -8,6 +8,8 @@ COPY clangd-for-modules/ /tmp/clangd-for-modules
 RUN --mount=type=cache,target=/root/.cache <<-EOF
 set -xe
 
+cd /tmp/clangd-for-modules
+
 cmake -Sllvm -Bbuild \
   -DCMAKE_BUILD_TYPE=Release \
   -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" \
@@ -23,7 +25,5 @@ cd /
 rm -rf /tmp/clangd-for-modules
 
 EOF
-
-WORKDIR /root
 
 RUN pacman -Rcns --noconfirm clang
