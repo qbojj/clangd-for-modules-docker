@@ -5,7 +5,6 @@ RUN --mount=type=cache,target=/var/cache/pacman/pkg \
 
 # build and install latest clang+clangd with c++20 modules support
 COPY clangd-for-modules/ /tmp/clangd-for-modules
-WORKDIR /tmp/clangd-for-modules
 RUN --mount=type=cache,target=/root/.cache <<-EOF
 set -xe
 
@@ -18,7 +17,7 @@ cmake -Sllvm -Bbuild \
   -DCMAKE_C_COMPILER=clang 
 
 cmake --build build --parallel $(nproc)
-cmake --install build
+cmake --install build --strip
 
 cd /
 rm -rf /tmp/clangd-for-modules
