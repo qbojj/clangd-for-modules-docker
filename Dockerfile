@@ -17,7 +17,7 @@ cmake -Sllvm -Bbuild \
   -DCMAKE_CXX_COMPILER=clang++ \
   -DCMAKE_C_COMPILER=clang 
 
-cmake --build build
+cmake --build build --parallel $(nproc)
 cmake --install build
 
 cd /
