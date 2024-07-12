@@ -19,7 +19,14 @@ cmake -Sllvm -Bbuild \
   -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" \
   -DLLVM_USE_LINKER=lld \
   -DCMAKE_CXX_COMPILER=clang++ \
-  -DCMAKE_C_COMPILER=clang 
+  -DCMAKE_C_COMPILER=clang \
+  -DLLVM_INCLUDE_BENCHMARKS=OFF \ 
+  -DLLVM_INCLUDE_EXAMPLES=OFF \
+  -DLLVM_BUILD_DOCS=OFF \
+  -DLLVM_INCLUDE_DOCS=OFF \
+  -DLLVM_ENABLE_OCAMLDOC=OFF \
+  -DLLVM_ENABLE_SPHINX=OFF \
+  -DLLVM_ENABLE_DOXYGEN=OFF
 
 cmake --build build --parallel $(nproc)
 cmake --install build --strip
@@ -27,6 +34,6 @@ cmake --install build --strip
 cd /
 rm -rf /tmp/clangd-for-modules
 
-pacman -Rcns --noconfirm clang
+pacman -Rcns --noconfirm clang lld git cmake python
 
 EOF
