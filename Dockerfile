@@ -2,7 +2,7 @@ FROM archlinux:latest
 
 # build and install latest clang+clangd with c++20 modules support
 COPY clangd-for-modules/ /tmp/clangd-for-modules
-RUN <<-EOF
+RUN --mount=type=cache,target=/var/cache/pacman/pkg <<-EOF
 set -xe
 
 pacman -Syu --noconfirm base-devel clang lld python cmake
