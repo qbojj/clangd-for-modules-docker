@@ -15,7 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: update clangd-for-modules
+      - id: get-data
+        name: update clangd-for-modules
         run: |
           git submodule update --init --remote --depth=1 clangd-for-modules
           commit=$(git submodule status clangd-for-modules | awk '{print $1}')
