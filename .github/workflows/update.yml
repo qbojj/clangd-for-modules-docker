@@ -19,7 +19,7 @@ jobs:
         name: update clangd-for-modules
         run: |
           git submodule update --init --remote --depth=1 clangd-for-modules
-          commit=$(git submodule status clangd-for-modules | awk '{print $1}')
+          commit=$(git submodule status clangd-for-modules | awk '{print $1}' | tr -dc "[:alnum:]")
           echo "updated=$commit" >> "$GITHUB_OUTPUT"
           sed -i "N; N; s/#REPLACE.*/#REPLACE\ngit checkout $commit\n/" Dockerfile   
 
