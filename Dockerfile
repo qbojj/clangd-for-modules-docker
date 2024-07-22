@@ -11,7 +11,7 @@ git clone https://github.com/ChuanqiXu9/clangd-for-modules.git
 cd clangd-for-modules
 
 #REPLACE
-git checkout 21c5f3ffa19dd3d02bd5bdb67bacf37dfade1764
+git checkout +e58317686e96feb5297157cc17dddd47722ec20c
 
 cmake -Sllvm -Bbuild \
   -DCMAKE_BUILD_TYPE=Release \
